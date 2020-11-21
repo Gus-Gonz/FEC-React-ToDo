@@ -4,7 +4,7 @@ import ItemTodo  from '../../components/ItemTodo/ItemTodo'
 let TodoList = (props) =>{
     return (
         <ul>
-            <ItemTodo text="Hell0 !!"/>
+            {props.todoListMapped}
         </ul>
     )
 }

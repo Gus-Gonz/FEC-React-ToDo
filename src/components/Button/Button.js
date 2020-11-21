@@ -1,6 +1,6 @@
-let Button = (props) =>{
+const Button = (props) =>{
     return (
-    <button>{props.text}</button>
+    <button className={props.style} onClick={props.click}>{props.text}</button>
     )
 }
 

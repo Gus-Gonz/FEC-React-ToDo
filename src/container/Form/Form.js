@@ -5,8 +5,8 @@ import Button from '../../components/Button/Button'
 let Form = (props) =>{
     return (
         <div>
-            <Input change={props.addNewTodo.getNewTodoHandler}/>
-            <Button onClick={props.addNewTodo.newTodoHandler}  text="Add"/>
+            <Input/>
+            <Button click={props.click} text="Add"/>
         </div>
     )
 }

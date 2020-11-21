@@ -1,4 +1,3 @@
-
 let ItemTodo = (props) =>{
     return (
     <li>{props.text}</li>

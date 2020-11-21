@@ -4,10 +4,10 @@ import NavBar from '../Navbar/NavBar';
 
 let Header = (props) =>{
     return (
-        <div>
+        <header>
             <H1 text="#Todo"></H1>
             <NavBar/>
-        </div>
+        </header>
     )
 }
 
