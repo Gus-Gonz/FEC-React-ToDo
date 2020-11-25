@@ -1,6 +1,6 @@
 let ItemNavBar = (props) =>{
     return (
-        <li>{props.text}</li>
+        <li>{props.children}</li>
     )
 }
 

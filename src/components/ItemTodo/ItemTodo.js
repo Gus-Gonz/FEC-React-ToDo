@@ -1,6 +1,6 @@
 let ItemTodo = (props) =>{
     return (
-    <li>{props.text}</li>
+    <li className='list-element'>{props.text}</li>
     )
 }
 

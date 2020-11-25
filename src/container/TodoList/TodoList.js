@@ -1,6 +1,3 @@
-import ItemTodo  from '../../components/ItemTodo/ItemTodo'
-
-
 let TodoList = (props) =>{
     return (
         <ul>

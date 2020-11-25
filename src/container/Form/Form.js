@@ -4,7 +4,7 @@ import Button from '../../components/Button/Button'
 
 let Form = (props) =>{
     return (
-        <div>
+        <div className='form'>
             <Input/>
             <Button click={props.click} text="Add"/>
         </div>

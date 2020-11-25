@@ -1,11 +1,13 @@
 import ItemNavBar from '../../components/ItemNavBar/ItemNavBar';
+import {Link} from "react-router-dom"
+
 
 let NavBar = (props) =>{
     return (
-        <nav>
-            <ItemNavBar text="All"/>
-            <ItemNavBar text="Active"/>
-            <ItemNavBar text="Completed"/>
+        <nav className='header-nav'>
+            <Link className='nav-element' to={'/'}><ItemNavBar>All</ItemNavBar></Link>
+            <Link className='nav-element' to={'/active'}><ItemNavBar>Active</ItemNavBar></Link>
+            <Link className='nav-element' to={'/completed'}><ItemNavBar>Completed</ItemNavBar></Link>
         </nav>
     )
 }
