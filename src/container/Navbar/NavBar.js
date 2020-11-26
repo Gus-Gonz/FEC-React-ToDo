@@ -1,5 +1,5 @@
 import ItemNavBar from '../../components/ItemNavBar/ItemNavBar';
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
 
 
 let NavBar = (props) =>{

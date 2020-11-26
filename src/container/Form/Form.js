@@ -1,12 +1,12 @@
 import Input from '../../components/Input/Input';
-import Button from '../../components/Button/Button'
+import Button from '../../components/Button/Button';
 
 
-let Form = (props) =>{
+let Form = ({click}) =>{
     return (
         <div className='form'>
             <Input/>
-            <Button click={props.click} text="Add"/>
+            <Button click={click} text="Add"/>
         </div>
     )
 }

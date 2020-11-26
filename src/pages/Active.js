@@ -5,7 +5,7 @@ import Form from '../container/Form/Form';
 import TodoList from '../container/TodoList/TodoList';
 
 const All = (props) =>{
-    const todoListMapped = props.mappedTodoList
+    const todoListMapped = props.mappedTodoList;
       return (
               <section >
                 <Form click={props.addButtonClick}/>
