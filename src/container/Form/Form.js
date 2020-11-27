@@ -5,8 +5,8 @@ import Button from '../../components/Button/Button';
 let Form = ({click}) =>{
     return (
         <div className='form'>
-            <Input/>
-            <Button click={click} text="Add"/>
+            <Input placeholder='Add New Task' class="main-input"/>
+            <Button class='main-button' click={click} text="Add"/>
         </div>
     )
 }

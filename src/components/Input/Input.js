@@ -1,6 +1,6 @@
 
 let Input = (props) =>{
-    return (<input  type={props.type}></input>)
+    return (<input className={props.class} placeholder={props.placeholder} type={props.type}></input>)
 }
 
 export default Input ;

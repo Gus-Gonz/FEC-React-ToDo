@@ -7,7 +7,7 @@ let Header = (props) =>{
     return (
         <header>
             <H1 text="#Todo"></H1>
-            <NavBar/>
+            <NavBar activeTabObj={props.activeTabObj} click={props.navBarClick}/>
         </header>
     )
 }

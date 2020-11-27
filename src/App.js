@@ -30,6 +30,27 @@ class App extends Component {
         completed: false,
       },
     ],
+    activeTabs: [
+      { tabName: 'all', active: true },
+      { tabName: 'active', active: false },
+      { tabName: 'completed', active: false },
+    ],
+  };
+
+  activeTabHandler = (activeTabName = 'all') => {
+    const newActiveTabs = [...this.state.activeTabs];
+    newActiveTabs.forEach((eachtab) => {
+      eachtab.active = false;
+    });
+
+    const tabIndex = newActiveTabs.findIndex((tab) => {
+      return tab.tabName === activeTabName;
+    });
+    const tab = { ...newActiveTabs[tabIndex] };
+    tab.active = true;
+    newActiveTabs[tabIndex] = tab;
+
+    this.setState({ activeTabs: newActiveTabs });
   };
 
   addNewTaskHandler = (event) => {
@@ -60,7 +81,6 @@ class App extends Component {
   };
 
   completeTaskHandler = (event, itemId) => {
-    // const liElement = event.target.closest('div').querySelector('li');
     const newTodos = this.state.toDos;
     const todoIndex = newTodos.findIndex((todo) => {
       return todo.id === itemId;
@@ -86,25 +106,26 @@ class App extends Component {
     this.setState({ toDos: newTodos });
   };
 
-  constructingJsxInsideMap = (
-    filteredlist,
-    doesItneedsDeleteButton = false
-  ) => {
+  mappingTodoList = (filteredlist, doesItneedsDeleteButton = false) => {
     return filteredlist.map((toDo) => {
       return (
-        <div className={toDo.completed ? 'completed' : null}>
-          <span>
-            <Button
-              key={toDo.id}
-              text={'O'}
-              click={(event) => this.completeTaskHandler(event, toDo.id)}
-            />
-          </span>
-          <ItemTodo key={toDo.id} text={toDo.text} />
+        <div
+          key={toDo.id}
+          className={
+            toDo.completed ? 'list-element completed' : 'list-element'
+          }>
+          <Button
+            class={
+              toDo.completed ? 'button-radio radio-completed' : 'button-radio'
+            }
+            text={null}
+            click={(event) => this.completeTaskHandler(event, toDo.id)}
+          />
+          <ItemTodo text={toDo.text} />
           {doesItneedsDeleteButton ? (
             <span>
               <Button
-                key={toDo.id}
+                class='button-radio radio-delete'
                 text={'X'}
                 click={(event) => this.deleteTaskHandler(event, toDo.id)}
               />
@@ -115,17 +136,19 @@ class App extends Component {
     });
   };
 
-  mappingTodoList = (activeTab = 'all') => {
+  constructingJsx = (activeTab = 'all') => {
     let filteredList;
+    let newActiveTab;
     if (activeTab === 'all') {
       filteredList = [...this.state.toDos];
-      return this.constructingJsxInsideMap(filteredList);
+      // this.activeTabHandler(activeTab)
+      return this.mappingTodoList(filteredList);
     } else if (activeTab === 'active') {
       filteredList = this.state.toDos.filter((todo) => !todo.completed);
-      return this.constructingJsxInsideMap(filteredList);
+      return this.mappingTodoList(filteredList);
     } else if (activeTab === 'completed') {
       filteredList = this.state.toDos.filter((todo) => todo.completed);
-      return this.constructingJsxInsideMap(filteredList, true);
+      return this.mappingTodoList(filteredList, true);
     }
   };
 
@@ -140,7 +163,7 @@ class App extends Component {
               path='/'
               render={() => (
                 <All
-                  mappedTodoList={this.mappingTodoList()}
+                  mappedTodoList={this.constructingJsx()}
                   addButtonClick={(event) =>
                     this.addNewTaskHandler(event)
                   }></All>
@@ -150,7 +173,7 @@ class App extends Component {
               path='/active'
               render={() => (
                 <Active
-                  mappedTodoList={this.mappingTodoList('active')}
+                  mappedTodoList={this.constructingJsx('active')}
                   addButtonClick={(event) =>
                     this.addNewTaskHandler(event)
                   }></Active>
@@ -160,7 +183,7 @@ class App extends Component {
               path='/completed'
               render={() => (
                 <Completed
-                  mappedTodoList={this.mappingTodoList('completed')}
+                  mappedTodoList={this.constructingJsx('completed')}
                   buttonClick={(event) => this.addNewTaskHandler(event)}
                   deleteAllButtonClick={(event) =>
                     this.deleteAllTaskHandler(event)

@@ -9,7 +9,7 @@ const All = (props) =>{
       return (
               <section >
                 <TodoList todoListMapped={todoListMapped}/>
-                <Button text="DELETE ALL TASK COMPLETED" click={props.deleteAllButtonClick}></Button>
+                <Button class={'button-delete-all '} text="DELETE ALL" click={props.deleteAllButtonClick}></Button>
               </section>
       );
     }
