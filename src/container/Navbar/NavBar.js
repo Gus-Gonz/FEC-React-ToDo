@@ -1,16 +1,17 @@
 import ItemNavBar from '../../components/ItemNavBar/ItemNavBar';
 import { Link } from 'react-router-dom';
 // className={props.activeTabObj[0].active ?'nav-element active-nav-element' : 'nav-element'
-let NavBar = (props) => {
+
+let NavBar = ({activeTabObj}) => {
   return (
     <nav className='header-nav'>
-      <Link onClick={props.click} className={'nav-element'} to={'/'}>
+      <Link className={activeTabObj[0].active ?'nav-element active-nav-element' : 'nav-element'} to={'/'}>
         <ItemNavBar>All</ItemNavBar>
       </Link>
-      <Link onClick={props.click} className={'nav-element'} to={'/active'}>
+      <Link className={activeTabObj[1].active ?'nav-element active-nav-element' : 'nav-element'} to={'/active'}>
         <ItemNavBar>Active</ItemNavBar>
       </Link>
-      <Link onClick={props.click} className={'nav-element'} to={'/completed'}>
+      <Link className={activeTabObj[2].active ?'nav-element active-nav-element' : 'nav-element'} to={'/completed'}>
         <ItemNavBar>Completed</ItemNavBar>
       </Link>
     </nav>

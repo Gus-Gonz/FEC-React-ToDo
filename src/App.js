@@ -31,7 +31,7 @@ class App extends Component {
       },
     ],
     activeTabs: [
-      { tabName: 'all', active: true },
+      { tabName: 'all', active: false },
       { tabName: 'active', active: false },
       { tabName: 'completed', active: false },
     ],
@@ -50,7 +50,7 @@ class App extends Component {
     tab.active = true;
     newActiveTabs[tabIndex] = tab;
 
-    this.setState({ activeTabs: newActiveTabs });
+    return newActiveTabs;
   };
 
   addNewTaskHandler = (event) => {
@@ -138,7 +138,6 @@ class App extends Component {
 
   constructingJsx = (activeTab = 'all') => {
     let filteredList;
-    let newActiveTab;
     if (activeTab === 'all') {
       filteredList = [...this.state.toDos];
       // this.activeTabHandler(activeTab)
@@ -156,13 +155,13 @@ class App extends Component {
     return (
       <Router>
         <main>
-          <Header />
           <Switch>
             <Route
               exact
               path='/'
               render={() => (
                 <All
+                  activeTabObj={this.activeTabHandler()}
                   mappedTodoList={this.constructingJsx()}
                   addButtonClick={(event) =>
                     this.addNewTaskHandler(event)
@@ -173,6 +172,7 @@ class App extends Component {
               path='/active'
               render={() => (
                 <Active
+                  activeTabObj={this.activeTabHandler('active')}
                   mappedTodoList={this.constructingJsx('active')}
                   addButtonClick={(event) =>
                     this.addNewTaskHandler(event)
@@ -183,6 +183,7 @@ class App extends Component {
               path='/completed'
               render={() => (
                 <Completed
+                  activeTabObj={this.activeTabHandler('completed')}
                   mappedTodoList={this.constructingJsx('completed')}
                   buttonClick={(event) => this.addNewTaskHandler(event)}
                   deleteAllButtonClick={(event) =>
