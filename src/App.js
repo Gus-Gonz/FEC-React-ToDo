@@ -13,23 +13,7 @@ import Completed from './pages/Completed';
 
 class App extends Component {
   state = {
-    toDos: [
-      {
-        id: Math.floor(Math.random() * Date.now()),
-        text: 'Go to the street',
-        completed: false,
-      },
-      {
-        id: Math.floor(Math.random() * Date.now()),
-        text: 'Make dinner',
-        completed: true,
-      },
-      {
-        id: Math.floor(Math.random() * Date.now()),
-        text: 'Check my cellphone',
-        completed: false,
-      },
-    ],
+    toDos: [],
     activeTabs: [
       { tabName: 'all', active: false },
       { tabName: 'active', active: false },
