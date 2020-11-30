@@ -1,3 +1,5 @@
+In this branch, I used class based components to handle states, If you were looking for the Uses of Hooks , [then Check out this branch](https://github.com/Gus-Gonz/FEC-React-ToDo/tree/using-hook).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
