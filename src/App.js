@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // COMPONENTS
-import Header from './container/Header/Header';
 import ItemTodo from './components/ItemTodo/ItemTodo';
 import Button from './components/Button/Button';
 
@@ -11,18 +10,16 @@ import All from './pages/All';
 import Active from './pages/Active';
 import Completed from './pages/Completed';
 
-class App extends Component {
-  state = {
-    toDos: [],
-    activeTabs: [
-      { tabName: 'all', active: false },
-      { tabName: 'active', active: false },
-      { tabName: 'completed', active: false },
-    ],
-  };
+const App = () => {
+  const [toDos, setToDos] = useState([]);
+  const [activeTab, setActiveTab] = useState([
+    { tabName: 'all', active: false },
+    { tabName: 'active', active: false },
+    { tabName: 'completed', active: false },
+  ]);
 
-  activeTabHandler = (activeTabName = 'all') => {
-    const newActiveTabs = [...this.state.activeTabs];
+  const activeTabHandler = (activeTabName = 'all') => {
+    const newActiveTabs = [...activeTab];
     newActiveTabs.forEach((eachtab) => {
       eachtab.active = false;
     });
@@ -33,15 +30,14 @@ class App extends Component {
     const tab = { ...newActiveTabs[tabIndex] };
     tab.active = true;
     newActiveTabs[tabIndex] = tab;
-
     return newActiveTabs;
   };
 
-  addNewTaskHandler = (event) => {
+  const addNewTaskHandler = (event) => {
     const inputValue = event.target.parentElement
       .querySelector('input')
       .value.trim();
-    const newTodosList = this.state.toDos;
+    const newTodosList = [...toDos];
 
     if (inputValue === '') {
       return alert('It can not be a blank space');
@@ -53,19 +49,20 @@ class App extends Component {
       return alert('You can not add the same toDo twice');
     }
 
-    const toDo = {
+    const newToDo = {
       id: Math.floor(Math.random() * Date.now()),
       text: inputValue,
       completed: false,
     };
-    newTodosList.push(toDo);
 
-    this.setState({ toDos: newTodosList });
+    newTodosList.push(newToDo);
+    setToDos(newTodosList);
+
     event.target.parentElement.querySelector('input').value = '';
   };
 
-  completeTaskHandler = (event, itemId) => {
-    const newTodos = this.state.toDos;
+  const completeTaskHandler = (event, itemId) => {
+    const newTodos = [...toDos];
     const todoIndex = newTodos.findIndex((todo) => {
       return todo.id === itemId;
     });
@@ -77,20 +74,20 @@ class App extends Component {
       todo.completed = true;
     }
     newTodos[todoIndex] = todo;
-    this.setState({ toDos: newTodos });
+    setToDos(newTodos);
   };
 
-  deleteTaskHandler = (event, itemId) => {
-    const newTodos = this.state.toDos.filter((todo) => todo.id !== itemId);
-    this.setState({ toDos: newTodos });
+  const deleteTaskHandler = (event, itemId) => {
+    const newTodos = toDos.filter((todo) => todo.id !== itemId);
+    setToDos(newTodos);
   };
 
-  deleteAllTaskHandler = (event) => {
-    const newTodos = this.state.toDos.filter((todo) => !todo.completed);
-    this.setState({ toDos: newTodos });
+  const deleteAllTaskHandler = (event) => {
+    const newTodos = toDos.filter((todo) => !todo.completed);
+    setToDos(newTodos);
   };
 
-  mappingTodoList = (filteredlist, doesItneedsDeleteButton = false) => {
+  const mappingTodoList = (filteredlist, doesItneedsDeleteButton = false) => {
     return filteredlist.map((toDo) => {
       return (
         <div
@@ -103,7 +100,7 @@ class App extends Component {
               toDo.completed ? 'button-radio radio-completed' : 'button-radio'
             }
             text={null}
-            click={(event) => this.completeTaskHandler(event, toDo.id)}
+            click={(event) => completeTaskHandler(event, toDo.id)}
           />
           <ItemTodo text={toDo.text} />
           {doesItneedsDeleteButton ? (
@@ -111,7 +108,7 @@ class App extends Component {
               <Button
                 class='button-radio radio-delete'
                 text={'X'}
-                click={(event) => this.deleteTaskHandler(event, toDo.id)}
+                click={(event) => deleteTaskHandler(event, toDo.id)}
               />
             </span>
           ) : null}
@@ -120,66 +117,59 @@ class App extends Component {
     });
   };
 
-  constructingJsx = (activeTab = 'all') => {
+  const constructingJsx = (activeTab = 'all') => {
     let filteredList;
     if (activeTab === 'all') {
-      filteredList = [...this.state.toDos];
-      // this.activeTabHandler(activeTab)
-      return this.mappingTodoList(filteredList);
+      filteredList = [...toDos];
+      return mappingTodoList(filteredList);
     } else if (activeTab === 'active') {
-      filteredList = this.state.toDos.filter((todo) => !todo.completed);
-      return this.mappingTodoList(filteredList);
+      filteredList = toDos.filter((todo) => !todo.completed);
+      return mappingTodoList(filteredList);
     } else if (activeTab === 'completed') {
-      filteredList = this.state.toDos.filter((todo) => todo.completed);
-      return this.mappingTodoList(filteredList, true);
+      filteredList = toDos.filter((todo) => todo.completed);
+      return mappingTodoList(filteredList, true);
     }
   };
 
-  render() {
-    return (
-      <Router>
-        <main>
-          <Switch>
-            <Route
-              exact
-              path='/'
-              render={() => (
-                <All
-                  activeTabObj={this.activeTabHandler()}
-                  mappedTodoList={this.constructingJsx()}
-                  addButtonClick={(event) =>
-                    this.addNewTaskHandler(event)
-                  }></All>
-              )}
-            />
-            <Route
-              path='/active'
-              render={() => (
-                <Active
-                  activeTabObj={this.activeTabHandler('active')}
-                  mappedTodoList={this.constructingJsx('active')}
-                  addButtonClick={(event) =>
-                    this.addNewTaskHandler(event)
-                  }></Active>
-              )}
-            />
-            <Route
-              path='/completed'
-              render={() => (
-                <Completed
-                  activeTabObj={this.activeTabHandler('completed')}
-                  mappedTodoList={this.constructingJsx('completed')}
-                  buttonClick={(event) => this.addNewTaskHandler(event)}
-                  deleteAllButtonClick={(event) =>
-                    this.deleteAllTaskHandler(event)
-                  }></Completed>
-              )}
-            />
-          </Switch>
-        </main>
-      </Router>
-    );
-  }
-}
+  return (
+    <Router>
+      <main>
+        <Switch>
+          <Route
+            exact
+            path='/'
+            render={() => (
+              <All
+                activeTabObj={activeTabHandler()}
+                mappedTodoList={constructingJsx()}
+                addButtonClick={(event) => addNewTaskHandler(event)}></All>
+            )}
+          />
+          <Route
+            path='/active'
+            render={() => (
+              <Active
+                activeTabObj={activeTabHandler('active')}
+                mappedTodoList={constructingJsx('active')}
+                addButtonClick={(event) => addNewTaskHandler(event)}></Active>
+            )}
+          />
+          <Route
+            path='/completed'
+            render={() => (
+              <Completed
+                activeTabObj={activeTabHandler('completed')}
+                mappedTodoList={constructingJsx('completed')}
+                buttonClick={(event) => addNewTaskHandler(event)}
+                deleteAllButtonClick={(event) =>
+                  deleteAllTaskHandler(event)
+                }></Completed>
+            )}
+          />
+        </Switch>
+      </main>
+    </Router>
+  );
+};
 
 export default App;
